@@ -35,35 +35,41 @@ public class MainActivity extends AppCompatActivity {
 
     public void createInterstitial() {
         interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId("KODE INTERSTITIAS ADS"); // Ganti sesuai dengan kode interstitial ads anda
-        interstitialAd.setAdListener(new AdListener() {
-            @Override
-            public void onAdLoaded() {
-                // not call show interstitial ad from here
-            }
-
-            @Override
-            public void onAdClosed() {
-                loadInterstitial();
-
-            }
-        });
+        interstitialAd.setAdUnitId("KODE INTERSTITIAL ADS"); // Ganti sesuai dengan kode interstitial ads anda     
         loadInterstitial();
     }
 
     public void loadInterstitial() {
         AdRequest interstitialRequest = new AdRequest.Builder().build();
         interstitialAd.loadAd(interstitialRequest);
-
-        Intent inte = new Intent(MainActivity.this, Activity2.class);
-        startActivity(inte);
     }
 
     public void showInterstitial() {
         if (interstitialAd.isLoaded()) {
             interstitialAd.show();
+            interstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdLoaded() {
+                  // not call show interstitial ad from here
+                }
+
+                @Override
+                public void onAdClosed() {
+                    loadInterstitial();
+                    
+                    ////////////////////////////////
+                    Intent inte = new Intent(MainActivity.this, Activity2.class);
+                    startActivity(inte);
+                    ////////////////////////////////
+                }
+            });
         } else {
             loadInterstitial();
+            
+            ////////////////////////////////
+            Intent inte = new Intent(MainActivity.this, Activity2.class);
+            startActivity(inte);
+            ////////////////////////////////
         }
     }
 }
